@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>io.github.cbrinkrolf</groupId>
+	<artifactId>hq-power-outage-core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<maven.compiler.release>17</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.15.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.6.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<hq-power-outage-core-version>${project.version}</hq-power-outage-core-version>
+										<hq-power-outage-core-build-date>${maven.build.timestamp}</hq-power-outage-core-build-date>
+									</manifestEntries>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+									<resource>META-INF/attribution.xml</resource>
+									<file>${project.build.directory}/attribution.xml</file>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*</exclude>
+										<exclude>README*</exclude>
+										<exclude>NOTICE*</exclude>
+										<exclude>AUTHORS*</exclude>
+										<exclude>LICENSE*</exclude>
+										<exclude>about.*</exclude>
+										<exclude>.keep</exclude>
+										<exclude>*.txt</exclude>
+										<exclude>*.xsd</exclude>
+										<exclude>*.dtd</exclude>
+										<exclude>ASL2.0</exclude>
+										<exclude>*.stf</exclude>
+										<exclude>*.html</exclude>
+										<exclude>**/*.afdesign</exclude>
+										<exclude>XML*VERSION</exclude>
+										<exclude>release-timestamp.txt</exclude>
+										<exclude>logback.xml</exclude>
+										<exclude>**/Log4j2Plugins.dat</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- for testing -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>6.0.3</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>
